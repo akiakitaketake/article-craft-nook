@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/integer/time'
-
+# rubocop:disable Metrics/BlockLength
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -66,4 +66,10 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # 認証メール送信に関する設定
+  config.action_mailer.default_options = { from: 'no-replay@example.com' }
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.delivery_method = :letter_opener_web
 end
+# rubocop:enable Metrics/BlockLength
