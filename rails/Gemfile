@@ -39,10 +39,16 @@ gem 'rack-cors'
 # rails本体（標準gem）
 gem 'rails', '~> 7.1.5'
 
+# メッセージを日本語化
+gem 'rails-i18n'
+
 # タイムゾーン情報を提供する（標準gem）
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
+  # テスト用データを作成する
+  gem 'factory_bot_rails'
+  gem 'faker'
   # 開発環境でメール送信をテストする
   gem 'letter_opener_web'
   # pryコンソールを使えるようにする

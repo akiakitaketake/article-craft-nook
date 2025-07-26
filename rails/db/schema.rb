@@ -11,8 +11,18 @@
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
+# rubocop:disable Metrics/BlockLength
+ActiveRecord::Schema[7.1].define(version: 20_250_725_142_011) do
+  create_table 'articles', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.string 'title', comment: 'タイトル'
+    t.text 'content', comment: '本文'
+    t.integer 'status', comment: 'ステータス(10:未保存, 20:下書き, 30:公開中)'
+    t.bigint 'user_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['user_id'], name: 'index_articles_on_user_id'
+  end
 
-ActiveRecord::Schema[7.1].define(version: 20_250_717_021_339) do
   create_table 'users', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
     t.string 'provider', default: 'email', null: false
     t.string 'uid', default: '', null: false
@@ -37,4 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 20_250_717_021_339) do
     t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
     t.index %w[uid provider], name: 'index_users_on_uid_and_provider', unique: true
   end
+
+  add_foreign_key 'articles', 'users'
 end
+# rubocop:enable Metrics/BlockLength
