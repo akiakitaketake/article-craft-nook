@@ -19,7 +19,7 @@ RSpec.describe 'Api::V1::Articles', type: :request do
         res = JSON.parse(response.body)
         expect(res.keys).to eq %w[articles meta]
         expect(res['articles'].length).to eq 10
-        expect(res['articles'][0].keys).to eq %w[id title content created_at from_today user]
+        expect(res['articles'][0].keys).to eq %w[id title content status created_at from_today user]
         expect(res['articles'][0]['user'].keys).to eq ['name']
         expect(res['meta'].keys).to eq %w[current_page total_pages]
         expect(res['meta']['current_page']).to eq 1
@@ -36,7 +36,7 @@ RSpec.describe 'Api::V1::Articles', type: :request do
         res = JSON.parse(response.body)
         expect(res.keys).to eq %w[articles meta]
         expect(res['articles'].length).to eq 10
-        expect(res['articles'][0].keys).to eq %w[id title content created_at from_today user]
+        expect(res['articles'][0].keys).to eq %w[id title content status created_at from_today user]
         expect(res['articles'][0]['user'].keys).to eq ['name']
         expect(res['meta'].keys).to eq %w[current_page total_pages]
         expect(res['meta']['current_page']).to eq 2
@@ -60,7 +60,7 @@ RSpec.describe 'Api::V1::Articles', type: :request do
         it '正常にレコードを取得できる' do
           subject
           res = JSON.parse(response.body)
-          expect(res.keys).to eq %w[id title content created_at from_today user]
+          expect(res.keys).to eq %w[id title content status created_at from_today user]
           expect(res['user'].keys).to eq ['name']
           expect(response).to have_http_status(:ok)
         end
