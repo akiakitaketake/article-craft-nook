@@ -1,10 +1,37 @@
-import { AppBar, Container, Box, Button } from "@mui/material";
+import ArticleIcon from "@mui/icons-material/Article";
+import Logout from "@mui/icons-material/Logout";
+import PersonIcon from "@mui/icons-material/Person";
+import {
+  AppBar,
+  Container,
+  Box,
+  Button,
+  IconButton,
+  Avatar,
+  Menu,
+  MenuItem,
+  Typography,
+  Divider,
+  ListItemIcon,
+} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { useUserState } from "@/hooks/useGlobalState";
 
 const Header = () => {
   const [user] = useUserState();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar
       position="static"
@@ -63,7 +90,59 @@ const Header = () => {
                   </Button>
                 </Box>
               )}
-              {user.isSignedIn && <Box>{user.name}</Box>}
+              {user.isSignedIn && (
+                <Box sx={{ display: "flex" }}>
+                  <IconButton onClick={handleClick} sx={{ p: 0 }}>
+                    <Avatar>
+                      <PersonIcon />
+                    </Avatar>
+                  </IconButton>
+                  <Box sx={{ ml: 2 }}>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      sx={{
+                        color: "white",
+                        textTransform: "none",
+                        fontSize: 16,
+                        borderRadius: 2,
+                        width: 150,
+                        boxShadow: "none",
+                      }}
+                    >
+                      記事の新規作成
+                    </Button>
+                  </Box>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={open}
+                    id="account-menu"
+                    onClose={handleClose}
+                    onClick={handleClose}
+                  >
+                    <Box sx={{ pl: 2, py: 1 }}>
+                      <Typography sx={{ fontWeight: "bold" }}>
+                        {user.name}
+                      </Typography>
+                    </Box>
+                    <Divider />
+                    <MenuItem>
+                      <ListItemIcon>
+                        <ArticleIcon fontSize="small" />
+                      </ListItemIcon>
+                      記事の管理
+                    </MenuItem>
+                    <Link href="/sign_out">
+                      <MenuItem>
+                        <ListItemIcon>
+                          <Logout fontSize="small" />
+                        </ListItemIcon>
+                        サインアウト
+                      </MenuItem>
+                    </Link>
+                  </Menu>
+                </Box>
+              )}
             </>
           )}
         </Box>
