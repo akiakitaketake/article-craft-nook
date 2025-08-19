@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import camelcaseKeys from "camelcase-keys";
 import type { NextPage } from "next";
+import Link from "next/link";
 import useSWR from "swr";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
@@ -117,13 +118,15 @@ const CurrentArticles: NextPage = () => {
                 </>
 
                 <Box>
-                  <Avatar>
-                    <Tooltip title="編集する">
-                      <IconButton sx={{ backgroundColor: "#F1F5Fa" }}>
-                        <EditIcon sx={{ color: "#99AAB6" }} />
-                      </IconButton>
-                    </Tooltip>
-                  </Avatar>
+                  <Link href={"/current/articles/" + article.id}>
+                    <Avatar>
+                      <Tooltip title="編集する">
+                        <IconButton sx={{ backgroundColor: "#F1F5Fa" }}>
+                          <EditIcon sx={{ color: "#99AAB6" }} />
+                        </IconButton>
+                      </Tooltip>
+                    </Avatar>
+                  </Link>
                 </Box>
                 <Box>
                   <Avatar>
