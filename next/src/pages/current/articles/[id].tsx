@@ -160,7 +160,7 @@ const CurrentArticleDetail: NextPage = () => {
                   <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      justifyContent: "space-around",
                       alignItems: "center",
                       width: "100%",
                     }}
@@ -180,7 +180,7 @@ const CurrentArticleDetail: NextPage = () => {
                   <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      justifyContent: "space-around",
                       alignItems: "center",
                       width: "100%",
                     }}

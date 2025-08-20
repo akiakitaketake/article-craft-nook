@@ -14,8 +14,10 @@ import {
   Divider,
   ListItemIcon,
 } from "@mui/material";
+import axios, { AxiosResponse, AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useUserState } from "@/hooks/useGlobalState";
 
@@ -23,6 +25,10 @@ const Header = () => {
   const [user] = useUserState();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const router = useRouter();
+
+  const hideHeaderPathname = ["/current/articles/edit/[id]"];
+  if (hideHeaderPathname.includes(router.pathname)) return <></>;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -30,6 +36,25 @@ const Header = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const addNewArticle = () => {
+    const url = process.env.NEXT_PUBLIC_API_BASE_URL + "/current/articles";
+
+    const headers = {
+      "Content-Type": "application",
+      "access-token": localStorage.getItem("access-token"),
+      client: localStorage.getItem("client"),
+      uid: localStorage.getItem("uid"),
+    };
+
+    axios({ method: "POST", url: url, headers: headers })
+      .then((res: AxiosResponse) => {
+        router.push("/current/articles/edit/" + res.data.id);
+      })
+      .catch((err: AxiosError<{ error: string }>) => {
+        console.log(err.message);
+      });
   };
 
   return (
@@ -101,6 +126,7 @@ const Header = () => {
                     <Button
                       color="primary"
                       variant="contained"
+                      onClick={addNewArticle}
                       sx={{
                         color: "white",
                         textTransform: "none",
