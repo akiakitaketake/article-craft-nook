@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# 全てのコントローラーのベースとなる場所
 class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
   include DeviseHackFakeSession
