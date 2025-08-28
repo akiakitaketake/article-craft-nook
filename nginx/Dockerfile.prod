@@ -1,15 +1,16 @@
-FROM --platform=linux/x86_64 nginx:latest
+# Dockerfile.prod (方式B: メイン設定を置換)
+FROM nginx:latest
 
-# ヘルスチェック用
-RUN apt-get update && apt-get install -y curl vim sudo lsof
+# ヘルスチェック用（ついでにAPTキャッシュを掃除）
+RUN apt-get update && apt-get install -y curl vim sudo lsof && rm -rf /var/lib/apt/lists/*
 
-# インクルード用のディレクトリ内を削除
+# 任意：既定の conf.d を空にして事故を防止（任せる）
 RUN rm -f /etc/nginx/conf.d/*
 
-# Nginxの設定ファイルをコンテナにコピー
-ADD nginx.conf /etc/nginx/myapp.conf
+# 君のフル構成ファイルをメイン設定として配置
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# ビルド完了後にNginxを起動
-CMD /usr/sbin/nginx -g 'daemon off;' -c /etc/nginx/myapp.conf
+# JSON形式のCMDで起動
+CMD ["nginx", "-g", "daemon off;"]
 
 EXPOSE 80

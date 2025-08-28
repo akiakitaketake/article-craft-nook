@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 ActiveRecord::Base.transaction do
-  user1 = User.create!(name: 'テスト太郎', email: 'test1@example.com', password: 'password', confirmed_at: Time.current)
+  user1 = User.create!(name: '本番太郎', email: 'test1@example.com', password: 'password', confirmed_at: Time.current)
 
-  user2 = User.create!(name: 'テスト次郎', email: 'test2@example.com', password: 'password', confirmed_at: Time.current)
+  user2 = User.create!(name: '本番みさき', email: 'test2@example.com', password: 'password', confirmed_at: Time.current)
 
   15.times do |i|
     Article.create!(title: "テストタイトル1_#{i}", content: "テスト本文1_#{i}", status: :published, user: user1)

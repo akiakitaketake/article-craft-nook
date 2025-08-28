@@ -19,6 +19,6 @@ test:
 
 production:
   <<: *default
-  database: myapp_production
+  database: myapp_prouction
   url: <%= Rails.application.credentials.production.database_url %>
   

@@ -1,29 +1,35 @@
-FROM --platform=linux/x86_64 ruby:3.1.2
+# Ruby公式イメージを amd64 固定で使用
+FROM  ruby:3.1.2
 
-ENV LANG=C.UTF-8
-ENV TZ=Asia/Tokyo
-ENV RAILS_ENV=production
+# ロケール・タイムゾーン・Rails環境
+ENV LANG=C.UTF-8 \
+    TZ=Asia/Tokyo \
+    RAILS_ENV=production
 
-RUN mkdir /myapp
+# 作業ディレクトリ
 WORKDIR /myapp
-COPY Gemfile /myapp/Gemfile
-COPY Gemfile.lock /myapp/Gemfile.lock
 
-# Ruby公式イメージの既定BUNDLER_VERSIONを無効化して自分で指定
-RUN unset BUNDLER_VERSION \
- && gem install bundler:2.6.9
+# 依存関係インストール（キャッシュ効かせるため Gemfile 系だけ先にコピー）
+COPY Gemfile Gemfile.lock ./
 
-RUN bundle _2.6.9_ install --jobs 4 --retry 3
+RUN gem update --system && \
+    gem install bundler && \
+    bundle install --jobs=4 --retry=3
 
-COPY . /myapp
-RUN mkdir -p tmp/sockets
-RUN mkdir -p tmp/pids
+# アプリ本体コピー
+COPY . .
 
+# Rails 用 tmp ディレクトリ
+RUN mkdir -p tmp/sockets tmp/pids
+
+# 永続化するディレクトリ
 VOLUME /myapp/public
 VOLUME /myapp/tmp
 
-# Add a script to be executed every time the container starts.
-COPY entrypoint.prod.sh /usr/bin/
+# Entrypoint スクリプトを配置＆実行権限
+COPY entrypoint.prod.sh /usr/bin/entrypoint.prod.sh
 RUN chmod +x /usr/bin/entrypoint.prod.sh
-ENTRYPOINT ["entrypoint.prod.sh"]
+ENTRYPOINT ["/usr/bin/entrypoint.prod.sh"]
+
+# 公開ポート
 EXPOSE 3000

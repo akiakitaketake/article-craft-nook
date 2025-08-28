@@ -2,6 +2,7 @@
 
 require 'active_support/core_ext/integer/time'
 
+# rubocop:disable Metrics/BlockLength
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -77,6 +78,20 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # 認証メール送信に関する記述
+  config.action_mailer.default_options = { from: 'no-reply@article-craft-nook.com' }
+  config.action_mailer.default_url_options = { host: 'https://article-craft-nook.com' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: 'gmail.com',
+    user_name: Rails.application.credentials.production.gmail.user_name,
+    password: Rails.application.credentials.production.gmail.password,
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
+
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com
@@ -85,3 +100,4 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end
+# rubocop:enable Metrics/BlockLength

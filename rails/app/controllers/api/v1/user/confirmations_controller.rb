@@ -6,7 +6,7 @@ module Api
       # ユーザーを認証するためのシステム
       class ConfirmationsController < Api::V1::BaseController
         def update
-          user = User.find_by(confirmation_token: params[:confirmation_token])
+          user = ::User.find_by(confirmation_token: params[:confirmation_token])
           return render json: { message: 'User record id not found.' }, status: :not_found if user.nil?
           return render json: { message: 'User has already been confirmed.' }, status: :bad_request if user.confirmed?
 
