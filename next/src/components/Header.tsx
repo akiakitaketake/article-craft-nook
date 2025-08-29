@@ -13,6 +13,7 @@ import {
   Typography,
   Divider,
   ListItemIcon,
+  Tooltip,
 } from "@mui/material";
 import axios, { AxiosResponse, AxiosError } from "axios";
 import Image from "next/image";
@@ -75,11 +76,26 @@ const Header = () => {
             alignItems: "center",
           }}
         >
-          <Box>
-            <Link href="/">
-              <Image src="/logo.png" width={133} height={40} alt="logo" />
-            </Link>
-          </Box>
+          {router.pathname == "/" && (
+            <Box>
+              <Link href="/">
+                <Image src="/book.png" width={40} height={40} alt="logo" />
+                <Image src="/home.png" width={40} height={40} alt="logo" />
+                <Image src="/book.png" width={40} height={40} alt="logo" />
+              </Link>
+            </Box>
+          )}
+          {router.pathname == "/" || (
+            <Box>
+              <Tooltip title="HOMEに戻る">
+                <Link href="/">
+                  <Image src="/book.png" width={40} height={40} alt="logo" />
+                  <Image src="/home.png" width={40} height={40} alt="logo" />
+                  <Image src="/book.png" width={40} height={40} alt="logo" />
+                </Link>
+              </Tooltip>
+            </Box>
+          )}
           {user.isFetched && (
             <>
               {!user.isSignedIn && (
@@ -96,7 +112,7 @@ const Header = () => {
                         boxShadow: "none",
                       }}
                     >
-                      Sign in
+                      ログイン
                     </Button>
                   </Link>
                   <Link href="/sign_up">
@@ -112,7 +128,7 @@ const Header = () => {
                         ml: 2,
                       }}
                     >
-                      Sign up
+                      新規登録
                     </Button>
                   </Link>
                 </Box>

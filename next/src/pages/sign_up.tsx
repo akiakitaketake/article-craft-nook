@@ -83,12 +83,12 @@ const SignUp: NextPage = () => {
   return (
     <Box css={styles.pageMinHeight} sx={{ backgroundColor: "#EDF2F7" }}>
       <Container maxWidth="sm">
-        <Box sx={{ py: 4 }}>
+        <Box sx={{ pb: 4, pt: 10 }}>
           <Typography
             component="h2"
             sx={{ fontSize: 32, fontWeight: "bold", color: "black" }}
           >
-            Sign Up
+            新規登録
           </Typography>
         </Box>
 

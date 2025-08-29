@@ -133,8 +133,9 @@ const CurrentArticlesEdit: NextPage = () => {
         setSnackbar({
           message: "記事を保存しました",
           severity: "success",
-          pathname: "/current/articles/edit/[id]",
+          pathname: "/current/articles",
         });
+        router.push("/current/articles");
       })
       .catch((err: AxiosError<{ error: string }>) => {
         console.log(err.message);

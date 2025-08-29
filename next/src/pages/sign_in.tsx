@@ -71,12 +71,12 @@ const SignIn: NextPage = () => {
   return (
     <Box sx={{ backgroundColor: "#EDF2F7", minHeight: "calc(100vh - 57px)" }}>
       <Container maxWidth="sm">
-        <Box sx={{ mb: 4, pt: 4 }}>
+        <Box sx={{ mb: 4, pt: 10 }}>
           <Typography
             component="h2"
             sx={{ fontSize: 32, fontWeight: "bold", color: "black" }}
           >
-            Sign in
+            ログイン
           </Typography>
         </Box>
 

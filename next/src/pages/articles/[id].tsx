@@ -1,6 +1,5 @@
 import ArticleIcon from "@mui/icons-material/Article";
 import PersonIcon from "@mui/icons-material/Person";
-import UpdateIcon from "@mui/icons-material/Update";
 import {
   Box,
   Container,
@@ -102,17 +101,6 @@ const ArticleDetail: NextPage = () => {
               {article.title}
             </Typography>
           </Box>
-          <Typography
-            component="p"
-            align="center"
-            sx={{
-              display: { xs: "block", lg: "none" },
-              color: "#6e7b85",
-              mt: "20px",
-            }}
-          >
-            {article.createdAt}に公開
-          </Typography>
         </Box>
         <Box sx={{ display: "flex", gap: "0 24px" }}>
           <Box sx={{ width: "100%" }}>
@@ -163,7 +151,7 @@ const ArticleDetail: NextPage = () => {
                     </Box>
                   </Box>
                 </ListItem>
-                <ListItem divider>
+                <ListItem>
                   <Box
                     sx={{
                       display: "flex",
@@ -180,26 +168,6 @@ const ArticleDetail: NextPage = () => {
                     </Box>
                     <Box>
                       <ListItemText primary={article.createdAt} />
-                    </Box>
-                  </Box>
-                </ListItem>
-                <ListItem>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      width: "100%",
-                    }}
-                  >
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <Box sx={{ pr: 1 }}>
-                        <UpdateIcon />
-                      </Box>
-                      <ListItemText primary="本文更新" />
-                    </Box>
-                    <Box>
-                      <ListItemText primary={article.updatedAt} />
                     </Box>
                   </Box>
                 </ListItem>
