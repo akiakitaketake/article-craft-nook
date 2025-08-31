@@ -14,6 +14,10 @@
 - アプリケーションは、以下のリンクからアクセスできます。  
   - [https://article-craft-nook.com](https://article-craft-nook.com)
 
+    **テストログイン用アカウント**  
+    email: test1@example.com  
+    password: password  
+
 ## 主な機能
 - 記事の閲覧（Markdownで保存 → HTMLで表示）
 - ユーザー登録（メール認証付き）
