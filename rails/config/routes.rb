@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
       namespace :current do
         resource :user, only: [:show]
-        resources :articles, only: %i[index show create update]
+        resources :articles, only: %i[index show create update destroy]
       end
       resources :articles, only: %i[index show]
     end

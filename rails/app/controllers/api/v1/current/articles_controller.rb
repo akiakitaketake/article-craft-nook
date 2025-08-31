@@ -28,6 +28,11 @@ module Api
           render json: article
         end
 
+        def destroy
+          article = current_user.articles.find(params[:id])
+          article.destroy!
+        end
+
         private
 
         def article_params

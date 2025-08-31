@@ -1,4 +1,5 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
@@ -9,13 +10,15 @@ import {
   IconButton,
   Divider,
 } from "@mui/material";
+import axios, { AxiosError } from "axios";
 import camelcaseKeys from "camelcase-keys";
 import type { NextPage } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import useSWR from "swr";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
-import { useUserState } from "@/hooks/useGlobalState";
+import { useUserState, useSnackbarState } from "@/hooks/useGlobalState";
 import { useRequireSignedIn } from "@/hooks/useRequireSignedIn";
 import { styles } from "@/styles";
 import { fetcher } from "@/utils/index";
@@ -29,6 +32,8 @@ type ArticleProps = {
 const CurrentArticles: NextPage = () => {
   useRequireSignedIn();
   const [user] = useUserState();
+  const [, setSnackbar] = useSnackbarState();
+  const router = useRouter();
 
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + "/current/articles";
   const { data, error } = useSWR(user.isSignedIn ? url : null, fetcher);
@@ -37,6 +42,41 @@ const CurrentArticles: NextPage = () => {
   if (!data) return <Loading />;
 
   const articles: ArticleProps[] = camelcaseKeys(data);
+
+  const handleClick = (id: number) => {
+    const url =
+      process.env.NEXT_PUBLIC_API_BASE_URL + "/current/articles/" + id;
+
+    const headers = {
+      "Content-Type": "application/json",
+      "access-token": localStorage.getItem("access-token"),
+      client: localStorage.getItem("client"),
+      uid: localStorage.getItem("uid"),
+    };
+
+    axios({
+      method: "DELETE",
+      url: url,
+      headers: headers,
+    })
+      .then(() => {
+        setSnackbar({
+          message: "記事を削除しました",
+          severity: "success",
+          pathname: "/current/articles",
+        });
+        router.reload();
+      })
+      .catch((err: AxiosError<{ error: string }>) => {
+        console.log(err.message);
+        setSnackbar({
+          message: "記事の削除に失敗しました",
+          severity: "error",
+          pathname: "/current/articles",
+        });
+      })
+      .finally(() => {});
+  };
 
   return (
     <Box
@@ -127,6 +167,18 @@ const CurrentArticles: NextPage = () => {
                       </Tooltip>
                     </Avatar>
                   </Link>
+                </Box>
+                <Box>
+                  <Avatar>
+                    <Tooltip title="記事を完全に削除する">
+                      <IconButton
+                        onClick={() => handleClick(article.id)}
+                        sx={{ backgroundColor: "#F1F5Fa" }}
+                      >
+                        <DeleteIcon sx={{ color: "#f11414ff" }} />
+                      </IconButton>
+                    </Tooltip>
+                  </Avatar>
                 </Box>
                 <Box>
                   <Link href={"/current/articles/" + article.id}>
